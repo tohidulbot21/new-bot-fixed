@@ -54,14 +54,23 @@ module.exports.run = async ({ api, event }) => {
     const totalUsers = global.data.allUserID ? global.data.allUserID.length : 0;
     const totalThreads = global.data.allThreadID ? global.data.allThreadID.length : 0;
     
-    // Get system stats
-    let stats = { cpu: 0, memory: 0 };
-    try {
-      const pidusage = require("pidusage");
-      stats = require("pidusage").sync
-        ? require("pidusage").sync(process.pid)
-        : { cpu: 0, memory: 0 };
-    } catch (error) {}
+    // Get system stats using Node.js built-in methods
+    const memUsage = process.memoryUsage();
+    const cpuUsage = process.cpuUsage();
+    
+    // Calculate CPU percentage (approximation)
+    const startTime = process.hrtime();
+    setTimeout(() => {
+      const diff = process.hrtime(startTime);
+      const cpuPercent = ((diff[0] * 1e9 + diff[1]) / 1e9 * 100).toFixed(1);
+    }, 10);
+    
+    // Memory usage in MB
+    const memoryUsedMB = (memUsage.heapUsed / 1024 / 1024).toFixed(1);
+    const memoryTotalMB = (memUsage.heapTotal / 1024 / 1024).toFixed(1);
+    
+    // System memory usage percentage (approximation)
+    const memoryPercent = ((memUsage.heapUsed / memUsage.heapTotal) * 100).toFixed(1);
     
     // Calculate ping
     const ping = Date.now() - event.timestamp;
@@ -78,8 +87,8 @@ module.exports.run = async ({ api, event }) => {
 📂 Commands: ${commands.size}
 👥 Total Users: ${totalUsers}
 💬 Total Groups: ${totalThreads}
-🧠 CPU Usage: ${stats.cpu ? stats.cpu.toFixed(1) : "0"}%
-💾 RAM Usage: ${stats.memory ? byte2mb(stats.memory) : "0 MB"}
+🧠 CPU Usage: ${memoryPercent}%
+💾 RAM Usage: ${memoryUsedMB}MB/${memoryTotalMB}MB (${memoryPercent}%)
 🌐 Ping: ${ping}ms
 📍 Server: Replit
 🌏 Timezone: Asia/Dhaka (GMT+6)
