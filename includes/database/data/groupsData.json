@@ -1,0 +1,52 @@
+{
+  "groups": {
+    "6601227983317461": {
+      "status": "approved",
+      "approvedAt": "2025-06-20T11:46:10.054Z",
+      "settings": {
+        "allowCommands": true,
+        "autoApprove": false
+      },
+      "lastUpdated": "2025-06-20T11:46:10.054Z"
+    },
+    "8691975704250419": {
+      "status": "approved",
+      "approvedAt": "2025-06-20T11:48:29.307Z",
+      "settings": {
+        "allowCommands": true,
+        "autoApprove": false
+      },
+      "lastUpdated": "2025-06-20T11:48:29.307Z"
+    },
+    "29898944713085639": {
+      "status": "approved",
+      "approvedAt": "2025-06-20T12:48:03.576Z",
+      "settings": {
+        "allowCommands": true,
+        "autoApprove": false
+      },
+      "lastUpdated": "2025-06-20T12:48:03.576Z"
+    },
+    "29215999454712506": {
+      "threadID": "29215999454712506",
+      "threadName": "Bot Tester GC",
+      "memberCount": 10,
+      "status": "approved",
+      "createdAt": "2025-06-22T11:43:14.643Z",
+      "lastUpdated": "2025-06-22T11:43:14.643Z",
+      "adminList": [
+        {
+          "id": "100092006324917"
+        }
+      ],
+      "settings": {
+        "allowCommands": true,
+        "autoApprove": false
+      },
+      "approvedAt": "2025-06-22T11:43:14.643Z"
+    }
+  },
+  "settings": {
+    "migrated": true
+  }
+}
