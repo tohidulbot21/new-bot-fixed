@@ -1,3 +1,4 @@
+
 module.exports.config = {
   name: "uptime",
   version: "4.0.0",
@@ -40,9 +41,20 @@ module.exports.run = async ({ api, event }) => {
     const seconds = Math.floor(time % 60);
     const moment = require("moment-timezone");
     const timeNow = moment.tz("Asia/Dhaka").format("DD/MM/YYYY | HH:mm:ss");
+    
+    // Get real bot configuration
     const { commands } = global.client;
-    const prefix = global.config.PREFIX || '.';
-    const botName = global.config.BOTNAME || "TOHI-BOT";
+    const config = global.config;
+    const prefix = config.PREFIX || '%';
+    const botName = config.BOTNAME || "TOHI-BOT";
+    const adminName = config.ADMINNAME || "TOHIDUL ISLAM";
+    const facebookLink = config.FACEBOOK || "https://www.facebook.com/tohi.khanx";
+    
+    // Get real user and thread data
+    const totalUsers = global.data.allUserID ? global.data.allUserID.length : 0;
+    const totalThreads = global.data.allThreadID ? global.data.allThreadID.length : 0;
+    
+    // Get system stats
     let stats = { cpu: 0, memory: 0 };
     try {
       const pidusage = require("pidusage");
@@ -50,18 +62,30 @@ module.exports.run = async ({ api, event }) => {
         ? require("pidusage").sync(process.pid)
         : { cpu: 0, memory: 0 };
     } catch (error) {}
+    
+    // Calculate ping
+    const ping = Date.now() - event.timestamp;
+    
     let msg = `
 ┏━━ 𝙏𝙊𝙃𝙄-𝘽𝙊𝙏 𝙐𝙋𝙏𝙄𝙈𝙀 ━━┓
 🟢 Status: ONLINE
+🤖 Bot Name: ${botName}
+👨‍💻 Owner: ${adminName}
+🔗 Facebook: ${facebookLink}
 ⏰ Uptime: ${hours}h ${minutes}m ${seconds}s
 📅 Date: ${timeNow}
+🔧 Prefix: ${prefix}
 📂 Commands: ${commands.size}
-👥 Users: ${global.data.allUserID.length}
-💬 Threads: ${global.data.allThreadID.length}
-🧠 CPU: ${stats.cpu ? stats.cpu.toFixed(1) : "0"}%
-💾 RAM: ${stats.memory ? byte2mb(stats.memory) : "0 MB"}
-🌐 Ping: ${Date.now() - event.timestamp}ms
+👥 Total Users: ${totalUsers}
+💬 Total Groups: ${totalThreads}
+🧠 CPU Usage: ${stats.cpu ? stats.cpu.toFixed(1) : "0"}%
+💾 RAM Usage: ${stats.memory ? byte2mb(stats.memory) : "0 MB"}
+🌐 Ping: ${ping}ms
+📍 Server: Replit
+🌏 Timezone: Asia/Dhaka (GMT+6)
 ┗━━━━━━━━━━━━━━━━━━┛
+
+💡 Bot is running smoothly!
 `;
     api.editMessage(msg, loading.messageID, threadID);
   }, 1000);
